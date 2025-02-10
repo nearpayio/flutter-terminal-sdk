@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SlideToActView">
+        <item name="text">SlideToActView</item>
+        <item name="text_size">18sp</item>
+        <item name="area_margin">8dp</item>
+        <item name="inner_color">@color/reversal</item>
+        <item name="outer_color">@color/gray</item>
+        <item name="slider_locked">false</item>
+    </style>
+</resources>

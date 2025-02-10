@@ -1,0 +1,124 @@
+apply plugin: 'maven-publish'
+
+Properties props = new Properties()
+
+def configurePom = { MavenPublication publication ->
+
+    publication.pom.name = 'Terminal SDK Library'
+    publication.pom.description = 'A library to create SOFTPOS applications'
+    publication.pom.url = 'http://nearpay.io'
+    publication.pom.licenses {
+        license {
+            name = 'Proprietary'
+            url = 'https://www.nearpay.io/pages/privacy-policy'
+        }
+    }
+    publication.pom.scm {
+        url = "http://nearpay.io"
+        connection = "http://nearpay.io"
+        developerConnection = "http://nearpay.io"
+    }
+    publication.pom.developers {
+        developer {
+            id = 'nearpay'
+            name = 'Nearpay'
+        }
+    }
+    publication.pom.organization {
+        name = "Nearpay"
+        url = "http://nearpay.io"
+    }
+    println "Available configurations:"
+    configurations.each { config ->
+        println config.name
+    }
+    publication.pom.withXml {
+
+        // Add dependencies
+//        def targetConfiguration = configurations.find { config ->
+//            config.name.toLowerCase().endsWith("compileclasspath") // Adjust condition as needed
+//        }
+        def configurationName
+        if (publication.artifactId == "terminalsdk-debug") {
+            configurationName = "debugCompileClasspath"
+        } else if (publication.artifactId == "terminalsdk-release") {
+            configurationName = "releaseCompileClasspath"
+        }
+//        if (publication.artifactId == "cardreader-debug") {
+//            configurationName = "standardNfcDebugCompileClasspath"
+//        } else if (publication.artifactId == "cardreader-mock-debug") {
+//            configurationName = "mockNfcDebugCompileClasspath"
+//        } else if (publication.artifactId == "cardreader-mock-release") {
+//            configurationName = "mockNfcReleaseCompileClasspath"
+//        } else if (publication.artifactId == "cardreader-release") {
+//            configurationName = "standardNfcReleaseCompileClasspath"
+//        }
+
+        def dependencies = asNode().appendNode('dependencies')
+        // Don't use 'named' as suggested by lint it will cause the task to fail
+        // Warning:(44, 24) Consider using 'named' to avoid unnecessary configuration
+        configurations.getByName(configurationName).getResolvedConfiguration().getFirstLevelModuleDependencies().each {
+                def dependency = dependencies.appendNode('dependency')
+                dependency.appendNode('groupId', it.moduleGroup)
+                dependency.appendNode('artifactId', it.moduleName)
+                dependency.appendNode('version', it.moduleVersion)
+        }
+    }
+}
+
+publishing {
+
+    publications {
+
+        debug(MavenPublication) {
+            groupId = "io.nearpay"
+            artifactId "terminalsdk-debug"
+            version = libs.versions.terminalsdk.get()
+            artifact "$buildDir/outputs/aar/library-debug.aar"
+        }
+        configurePom(debug)
+
+//        debugMock(MavenPublication) {
+//            groupId = "io.nearpay"
+//            artifactId "cardreader-mock-debug"
+//            version = libs.versions.nearpay.cardReader.get()
+//            artifact "$buildDir/outputs/aar/reader-mockNfc-debug.aar"
+//        }
+//        configurePom(debugMock)
+
+//        releaseMock(MavenPublication) {
+//            groupId = "io.nearpay"
+//            artifactId "cardreader-mock-release"
+//            version = libs.versions.nearpay.cardReader.get()
+//            artifact "$buildDir/outputs/aar/reader-mockNfc-release-protected.aar"
+//        }
+//        configurePom(releaseMock)
+
+        release(MavenPublication) {
+            groupId = "io.nearpay"
+            artifactId "terminalsdk-release"
+            version = libs.versions.terminalsdk.get()
+                    artifact "$buildDir/outputs/aar/library-release.aar"
+        }
+        configurePom(release)
+
+
+    }
+
+    repositories {
+        if (project.rootProject.file('local.properties').canRead()) {
+            props.load(project.rootProject.file("local.properties").newDataInputStream())
+        }
+
+        maven {
+            url "https://gitlab.com/api/v4/projects/37026421/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                name = "Deploy-Token"
+                value = System.getenv("POS_GITLAB_PUBLISH_TOKEN") ?: props.getProperty('POS_GITLAB_PUBLISH_TOKEN')
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
+    }
+}

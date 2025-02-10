@@ -1,0 +1,16 @@
+package io.nearpay.softpos.core.utils.enums
+
+enum class StatusCheckError {
+    UNSUPPORTED_SDK_VERSION,
+    NOT_INSTALLED,
+    UNSUPPORTED_DEVICE,
+    UPDATED_REQUIRED,
+    TERMINAL_UPDATING,
+    TERMINAL_RECONCILING,
+    NFC_DISABLED,
+    NFC_NOT_FOUND,
+    CONNECTIVITY_UNAVAILABLE,
+    NOT_SECURE,
+    DEV_MODE_ON,
+    LOCATION_MISSING
+}

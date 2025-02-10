@@ -1,0 +1,62 @@
+plugins {
+    id "com.android.library"
+    id "org.jetbrains.kotlin.android"
+}
+
+android {
+    compileSdk = 35
+    namespace = "com.example.flutter_terminal_sdk"
+
+    defaultConfig {
+        minSdk = 28
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_20
+        targetCompatibility JavaVersion.VERSION_20
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(20))
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "20"
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+                events("passed", "skipped", "failed", "standardOut", "standardError")
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
+    }
+
+}
+
+dependencies {
+//    implementation("io.flutter:flutter_embedding_debug:3.9.0")
+    // Kotlin stdlib
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+    implementation "io.nearpay:terminalsdk-debug:0.0.40"
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.huawei.hms:location:6.4.0.300'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    // Testing
+    testImplementation "org.jetbrains.kotlin:kotlin-test:1.7.21"
+    testImplementation "org.mockito:mockito-core:4.11.0"
+}

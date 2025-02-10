@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ar_tap_card">مرر البطاقة / الجهاز من الخلف</string>
+    <string name="en_tap_card">Tap Card / Device On Back</string>
+    <string name="ar_try_another_card">حاول في بطاقة أخرى</string>
+    <string name="en_try_another_card">Try Another Card</string>
+    <string name="ar_transaction_cancelled">العملية ملغاة</string>
+    <string name="en_transaction_cancelled">Transaction Cancelled</string>
+    <string name="ar_transaction_network_error">خطأ في الاتصال</string>
+    <string name="en_transaction_network_error">Network Error</string>
+    <string name="ar_transaction_processing_error">العملية خاطئة</string>
+    <string name="en_transaction_processing_error">Processing Error</string>
+    <string name="undefined">undefined</string>
+    <string name="created">created</string>
+    <string name="approved">approved</string>
+    <string name="rejected">rejected</string>
+    <string name="reversed">reversed</string>
+    <string name="we_couldn_t_load_configuration">We Couldn\'t Load Configuration</string>
+    <string name="logout">Logout</string>
+    <string name="retry">Retry</string>
+    <string name="continue_with_existing_config">Continue</string>
+    <string name="please_wait_until_load_configuration">Please wait until configuration is loaded</string>
+    <string name="terminal_id_or_name">Terminal id or name</string>
+    <string name="update">Update</string>
+
+    <string name="total_matched_en">Total matched</string>
+    <string name="total_not_matched_en">Total not matched</string>
+    <string name="total_matched_ar">المجاميع متوافقة</string>
+    <string name="total_not_matched_ar">المجاميع غير متوافقة</string>
+
+</resources>
