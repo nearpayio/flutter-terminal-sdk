@@ -37,8 +37,9 @@ class _PluginExampleState extends State<PluginExample> {
   String? transactionUuid;
 
   final TextEditingController _mobileController =
-      TextEditingController(text: "+966569767620");
-  final TextEditingController _emailController = TextEditingController();
+      TextEditingController(text: "+966555555555");
+  final TextEditingController _emailController = 
+      TextEditingController(text: "user@example.com");
   final TextEditingController _otpController =
       TextEditingController(text: "000000");
   final TextEditingController _amountController =
@@ -60,8 +61,8 @@ class _PluginExampleState extends State<PluginExample> {
       setState(() => _status = "Initializing...");
       await _terminalSdk.initialize(
         environment: Environment.sandbox,
-        googleCloudProjectNumber: 2349789872,
-        huaweiSafetyDetectApiKey: "323432423423",
+        googleCloudProjectNumber: 12345678,  // Set Google Cloud project number
+        huaweiSafetyDetectApiKey: "your_api_key",   // Set Huawei API key
         country: Country.sa,
       );
       setState(() => _status = "SDK Initialized");
